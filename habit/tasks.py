@@ -1,5 +1,3 @@
-import datetime
-
 from celery import shared_task
 from django.utils import timezone
 
@@ -7,7 +5,7 @@ from habit.models import Habit
 from habit.services import send_message
 
 
-@shared_task(name='habit.check_habits_and_send_reminders')
+@shared_task(name="habit.check_habits_and_send_reminders")
 def check_habits_and_send_reminders():
     """Отправляет напоминания пользователям о выполнении привычек"""
     current_datetime = timezone.now()

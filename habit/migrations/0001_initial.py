@@ -97,7 +97,8 @@ class Migration(migrations.Migration):
                 (
                     "is_public",
                     models.BooleanField(
-                        help_text="Привычки можно публиковать в общий доступ, чтобы другие пользователи могли брать в пример чужие привычки.",
+                        help_text="Привычки можно публиковать в общий доступ, чтобы другие пользователи"
+                        " могли брать в пример чужие привычки.",
                         verbose_name="Признак публичности",
                     ),
                 ),
@@ -105,7 +106,8 @@ class Migration(migrations.Migration):
                     "related_habit",
                     models.ForeignKey(
                         blank=True,
-                        help_text="Привычка, которая связана с другой привычкой, важно указывать для полезных привычек, но не для приятных.",
+                        help_text="Привычка, которая связана с другой привычкой, важно указывать "
+                        "для полезных привычек, но не для приятных.",
                         null=True,
                         on_delete=django.db.models.deletion.SET_NULL,
                         to="habit.habit",
