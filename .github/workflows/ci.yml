@@ -20,7 +20,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.12'
 
       - name: Install flake8
         run: |
@@ -51,16 +51,6 @@ jobs:
         uses: snok/install-poetry@v1
         with:
           virtualenvs-create: false
-          virtualenvs-in-project: false
-
-      - name: Load cached dependencies
-        uses: actions/cache@v3
-        id: cache
-        with:
-          path: ~/.cache/pypoetry
-          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-poetry-
 
       - name: Install dependencies
         run: |
