@@ -13,9 +13,7 @@ class HabitCreateAPIView(CreateAPIView):
     permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
-        habit = serializer.save()
-        habit.user = self.request.user
-        habit.save()
+        serializer.save(user=self.request.user)
 
 
 class PublicHabitListView(ListAPIView):
@@ -25,7 +23,7 @@ class PublicHabitListView(ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        return Habit.objects.filter(is_public=True)
+        return super().get_queryset().filter(is_public=True)
 
 
 class HabitListView(ListAPIView):
@@ -42,8 +40,8 @@ class HabitUpdateView(UpdateAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
     permission_classes = (
-        IsUser,
         IsAuthenticated,
+        IsUser,
     )
 
 

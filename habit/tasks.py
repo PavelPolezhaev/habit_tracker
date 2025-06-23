@@ -12,8 +12,12 @@ def check_habits_and_send_reminders():
     current_day = current_datetime.date()
     current_time = current_datetime.time()
 
-    habits = Habit.objects.filter(is_pleasant=False)
-    for habit in habits:
+    habbits = Habit.objects.filter(is_pleasant=False)
+    # Только пользователи с указанным tg_chat_id интересуют
+    habbits = habbits.filter(user__tg_chat_id__isnull=False)
+    # Время выполнения больше или равно текущему
+    habbits = habbits.filter(time__gte=current_time)
+    for habit in habbits:
         if not habit.last_execution or (current_day - habit.last_execution).days >= habit.periodicity:
             if habit.time >= current_time:
                 reward_habit = None
