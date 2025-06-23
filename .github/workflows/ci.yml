@@ -32,12 +32,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    services:
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
-
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -47,20 +41,16 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-create: false
-
       - name: Install dependencies
         run: |
-          poetry install --no-interaction --no-ansi --no-root
-          poetry add pytest pytest-django pytest-cov --group test
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-django
 
       - name: Run tests
         env:
-          SECRET_KEY: ${{ env.SECRET_KEY }}
-          DJANGO_SETTINGS_MODULE: config.settings
+          SECRET_KEY: 'django-insecure-test-key-for-ci-1234567890'
+          DJANGO_SETTINGS_MODULE: 'config.settings_test'  # Используем специальные настройки для тестов
         run: |
           python manage.py test
 
