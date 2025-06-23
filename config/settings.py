@@ -176,4 +176,3 @@ if "test" in sys.argv:
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": ":memory:",
     }
-
