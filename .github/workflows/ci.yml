@@ -45,13 +45,27 @@ jobs:
       - name: Set up Python 3.12
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'  # Явно указываем версию из pyproject.toml
+          python-version: '3.12'
 
       - name: Install Poetry
-        run: pip install poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: false
+          virtualenvs-in-project: false
+
+      - name: Load cached dependencies
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: ~/.cache/pypoetry
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
 
       - name: Install dependencies
-        run: poetry install --no-interaction --no-ansi --no-root
+        run: |
+          poetry install --no-interaction --no-ansi --no-root
+          poetry add pytest pytest-django pytest-cov --group test
 
       - name: Run tests
         env:
