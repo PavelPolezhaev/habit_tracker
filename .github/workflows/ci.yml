@@ -42,20 +42,16 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: Set up Python 3.12
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.12'  # Явно указываем версию из pyproject.toml
 
       - name: Install Poetry
-        run: |
-          pip install poetry
-          poetry config virtualenvs.create false
+        run: pip install poetry
 
       - name: Install dependencies
-        run: |
-          poetry install --no-interaction --no-ansi
-          poetry add pytest pytest-django pytest-cov --group test
+        run: poetry install --no-interaction --no-ansi --no-root
 
       - name: Run tests
         env:
