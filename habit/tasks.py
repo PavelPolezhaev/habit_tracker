@@ -7,7 +7,7 @@ from habit.models import Habit
 from habit.services import send_message
 
 
-@shared_task
+@shared_task(name='habit.check_habits_and_send_reminders')
 def check_habits_and_send_reminders():
     """Отправляет напоминания пользователям о выполнении привычек"""
     current_datetime = timezone.now()
