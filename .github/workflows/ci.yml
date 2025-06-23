@@ -64,10 +64,10 @@ jobs:
         run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/training_system:${{ github.sha }} .
+        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/habit_tracker:${{ github.sha }} .
 
       - name: Push Docker image in Docker hub
-        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/training_system:${{ github.sha }}
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/habit_tracker:${{ github.sha }}
 
 
   deploy:
@@ -83,8 +83,8 @@ jobs:
       - name: Deploy to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/training_system:${{ github.sha }}
-          docker stop training_system || true
-          docker rm training_system || true
-          docker run -d --name training_system -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/training_system:${{ github.sha }}
+          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/habit_tracker:${{ github.sha }}
+          docker stop habit_tracker || true
+          docker rm habit_tracker || true
+          docker run -d --name habit_tracker -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/habit_tracker:${{ github.sha }}
           EOF
