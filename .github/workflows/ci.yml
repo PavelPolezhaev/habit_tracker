@@ -86,5 +86,6 @@ jobs:
           docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/habit_tracker:${{ github.sha }}
           docker stop habit_tracker || true
           docker rm habit_tracker || true
+          docker network disconnect -f bridge habit_tracker || true
           docker run -d --name habit_tracker -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/habit_tracker:${{ github.sha }}
           EOF
